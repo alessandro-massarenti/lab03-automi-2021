@@ -136,6 +136,9 @@ antlrcpp::Any runtimeVisitor::visitExpr(pascalParser::ExprContext *ctx) {
 
 antlrcpp::Any runtimeVisitor::visitGuard(pascalParser::GuardContext *ctx) {
 
+    // Valuta un' espressione booleana
+    // il metodo ritorna true se l'espressione è vera, false altrimenti
+
     if(!ctx->relation()){
 
         if(ctx->NOT()){
@@ -155,8 +158,6 @@ antlrcpp::Any runtimeVisitor::visitGuard(pascalParser::GuardContext *ctx) {
         return false;
     }
 
-    // TODO: implementa la valutazione di una espressione booleana
-    // il metodo ritorna true se l'espressione è vera, false altrimenti
     return visitRelation(ctx->relation());
 }
 
