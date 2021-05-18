@@ -74,9 +74,10 @@ antlrcpp::Any runtimeVisitor::visitBranch(pascalParser::BranchContext *ctx) {
 }
 
 antlrcpp::Any runtimeVisitor::visitLoop(pascalParser::LoopContext *ctx) {
-    if(!visitGuard(ctx->guard()))
-        visitSt_list(ctx->st_list());
-
+    visitSt_list(ctx->st_list());
+    if(!visitGuard(ctx->guard())){
+        visitLoop(ctx);
+    }
     // Implementa l'esecuzione del ciclo repeat-until
     // (da controllare)
     return NULL;
