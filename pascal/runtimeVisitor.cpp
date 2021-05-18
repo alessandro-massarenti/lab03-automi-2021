@@ -62,7 +62,7 @@ antlrcpp::Any runtimeVisitor::visitBranch(pascalParser::BranchContext *ctx) {
     if(guard) {
         // se guardia vera, esegue ramo then
         visitCode_block(ctx->code_block(0));
-    } 
+    }
     // TODO: implementa l'esecuzione del ramo else (se presente) quando la guardia è falsa 
     return NULL;
 }
@@ -135,14 +135,44 @@ antlrcpp::Any runtimeVisitor::visitExpr(pascalParser::ExprContext *ctx) {
 }
 
 antlrcpp::Any runtimeVisitor::visitGuard(pascalParser::GuardContext *ctx) {
+    if( ctx->relation() != 0){
+        if (!visitRelation(ctx->relation()))
+            return false;
+    }
+
     // TODO: implementa la valutazione di una espressione booleana
     // il metodo ritorna true se l'espressione è vera, false altrimenti
     return true; 
 }
 
 antlrcpp::Any runtimeVisitor::visitRelation(pascalParser::RelationContext *ctx) {
-    // TODO: implementa la valutazione di un confronto 
     // il metodo ritorna true se il confronto è vero, false altrimenti
-    return true;
+
+    if(ctx->LT()){
+        if(vars[ctx->expr(0)->getText()] < vars[ctx->expr(1)->getText()])
+            return true;
+    }
+    if(ctx->LEQ()){
+        if(vars[ctx->expr(0)->getText()] <= vars[ctx->expr(1)->getText()])
+            return true;
+    }
+    if(ctx->EQ()){
+        if(vars[ctx->expr(0)->getText()] == vars[ctx->expr(1)->getText()])
+            return true;
+    }
+    if(ctx->NEQ()){
+        if(vars[ctx->expr(0)->getText()] != vars[ctx->expr(1)->getText()])
+            return true;
+    }
+    if(ctx->GEQ()){
+        if(vars[ctx->expr(0)->getText()] >= vars[ctx->expr(1)->getText()])
+            return true;
+    }
+    if(ctx->GT()){
+        if(vars[ctx->expr(0)->getText()] > vars[ctx->expr(1)->getText()])
+            return true;
+    }
+
+    return false;
 }
 
