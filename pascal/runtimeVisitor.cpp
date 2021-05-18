@@ -50,7 +50,8 @@ antlrcpp::Any runtimeVisitor::visitOut(pascalParser::OutContext *ctx) {
 }
 
 antlrcpp::Any runtimeVisitor::visitIn(pascalParser::InContext *ctx) {
-    // TODO: implementa la lettura dell'input da tastiera
+    cin >> vars[ctx->ID()->getText()];
+    //legge dell'input da tastiera
     // il metodo deve aggiornare il valore della variabile
     return NULL;
 }
