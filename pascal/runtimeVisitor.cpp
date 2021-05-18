@@ -41,7 +41,11 @@ antlrcpp::Any runtimeVisitor::visitOut(pascalParser::OutContext *ctx) {
         int value = visitExpr(ctx->expr());
         cout << value << endl;
     }
-    // TODO: implementare il caso stampa di una stringa 
+    // Implementato il caso della stringa
+    // (da controllare)
+    if(ctx->STRING() != NULL){
+        cout << ctx->STRING()->getText() << endl;
+    }
     return NULL;
 }
 
