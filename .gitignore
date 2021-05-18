@@ -30,3 +30,17 @@
 *.exe
 *.out
 *.app
+pascal/pascal
+pascal/pascal.interp
+pascal/pascal.tokens
+pascal/pascalBaseVisitor.cpp
+pascal/pascalBaseVisitor.h
+pascal/pascalLexer.cpp
+pascal/pascalLexer.h
+pascal/pascalLexer.interp
+pascal/pascalLexer.tokens
+pascal/pascalParser.cpp
+pascal/pascalParser.h
+pascal/pascalVisitor.cpp
+pascal/pascalVisitor.h
+pascal/syncheck
