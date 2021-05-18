@@ -58,13 +58,18 @@ antlrcpp::Any runtimeVisitor::visitIn(pascalParser::InContext *ctx) {
 
 
 antlrcpp::Any runtimeVisitor::visitBranch(pascalParser::BranchContext *ctx) {
+
     // stabilisce il valore della guardia
     bool guard = visitGuard(ctx->guard());
     if(guard) {
         // se guardia vera, esegue ramo then
         visitCode_block(ctx->code_block(0));
+    }else{
+        if(ctx->code_block(1)){
+            visitCode_block(ctx->code_block(1));
+        }
     }
-    // TODO: implementa l'esecuzione del ramo else (se presente) quando la guardia è falsa 
+    //Esegue il ramo else (se presente) quando la guardia è falsa 
     return NULL;
 }
 
