@@ -41,30 +41,45 @@ antlrcpp::Any runtimeVisitor::visitOut(pascalParser::OutContext *ctx) {
         int value = visitExpr(ctx->expr());
         cout << value << endl;
     }
-    // TODO: implementare il caso stampa di una stringa 
+    // Implementato il caso della stringa
+    // (da controllare)
+    if(ctx->STRING() != NULL){
+        cout << ctx->STRING()->getText() << endl;
+    }
     return NULL;
 }
 
 antlrcpp::Any runtimeVisitor::visitIn(pascalParser::InContext *ctx) {
-    // TODO: implementa la lettura dell'input da tastiera
+    cin >> vars[ctx->ID()->getText()];
+    //legge dell'input da tastiera
     // il metodo deve aggiornare il valore della variabile
     return NULL;
 }
 
 
 antlrcpp::Any runtimeVisitor::visitBranch(pascalParser::BranchContext *ctx) {
+
     // stabilisce il valore della guardia
     bool guard = visitGuard(ctx->guard());
     if(guard) {
         // se guardia vera, esegue ramo then
         visitCode_block(ctx->code_block(0));
-    } 
-    // TODO: implementa l'esecuzione del ramo else (se presente) quando la guardia è falsa 
+    }else{
+        if(ctx->code_block(1)){
+            visitCode_block(ctx->code_block(1));
+        }
+    }
+    //Esegue il ramo else (se presente) quando la guardia è falsa 
     return NULL;
 }
 
 antlrcpp::Any runtimeVisitor::visitLoop(pascalParser::LoopContext *ctx) {
-    // TODO: implementa l'esecuzione del ciclo repeat-until
+    visitSt_list(ctx->st_list());
+    if(!visitGuard(ctx->guard())){
+        visitLoop(ctx);
+    }
+    // Implementa l'esecuzione del ciclo repeat-until
+    // (da controllare)
     return NULL;
 }
 
@@ -131,14 +146,60 @@ antlrcpp::Any runtimeVisitor::visitExpr(pascalParser::ExprContext *ctx) {
 }
 
 antlrcpp::Any runtimeVisitor::visitGuard(pascalParser::GuardContext *ctx) {
-    // TODO: implementa la valutazione di una espressione booleana
+
+    // Valuta un' espressione booleana
     // il metodo ritorna true se l'espressione è vera, false altrimenti
-    return true; 
+
+    if(!ctx->relation()){
+
+        if(ctx->NOT()){
+            return !visitGuard(ctx->guard(0));
+        }
+
+        if(ctx->AND()){
+            if (visitGuard(ctx->guard(0)) && visitGuard(ctx->guard(1)))
+                return true;
+        }
+
+        if(ctx->OR()){
+            if (visitGuard(ctx->guard(0)) || visitGuard(ctx->guard(1)))
+                return true;
+        }
+
+        return false;
+    }
+
+    return visitRelation(ctx->relation());
 }
 
 antlrcpp::Any runtimeVisitor::visitRelation(pascalParser::RelationContext *ctx) {
-    // TODO: implementa la valutazione di un confronto 
     // il metodo ritorna true se il confronto è vero, false altrimenti
-    return true;
+
+    if(ctx->LT()){
+        if(vars[ctx->expr(0)->getText()] < vars[ctx->expr(1)->getText()])
+            return true;
+    }
+    if(ctx->LEQ()){
+        if(vars[ctx->expr(0)->getText()] <= vars[ctx->expr(1)->getText()])
+            return true;
+    }
+    if(ctx->EQ()){
+        if(vars[ctx->expr(0)->getText()] == vars[ctx->expr(1)->getText()])
+            return true;
+    }
+    if(ctx->NEQ()){
+        if(vars[ctx->expr(0)->getText()] != vars[ctx->expr(1)->getText()])
+            return true;
+    }
+    if(ctx->GEQ()){
+        if(vars[ctx->expr(0)->getText()] >= vars[ctx->expr(1)->getText()])
+            return true;
+    }
+    if(ctx->GT()){
+        if(vars[ctx->expr(0)->getText()] > vars[ctx->expr(1)->getText()])
+            return true;
+    }
+
+    return false;
 }
 
