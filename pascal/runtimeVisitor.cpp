@@ -35,6 +35,7 @@ antlrcpp::Any runtimeVisitor::visitAssign(pascalParser::AssignContext *ctx) {
 }
 
 antlrcpp::Any runtimeVisitor::visitOut(pascalParser::OutContext *ctx) {
+    ///////
     // verifico se devo stampare intero o stringa
     if(ctx->expr() != NULL) {
         // caso stampa intero
@@ -47,9 +48,11 @@ antlrcpp::Any runtimeVisitor::visitOut(pascalParser::OutContext *ctx) {
         cout << ctx->STRING()->getText() << endl;
     }
     return NULL;
+
 }
 
 antlrcpp::Any runtimeVisitor::visitIn(pascalParser::InContext *ctx) {
+    ///////
     cin >> vars[ctx->ID()->getText()];
     //legge dell'input da tastiera
     // il metodo deve aggiornare il valore della variabile
@@ -58,7 +61,7 @@ antlrcpp::Any runtimeVisitor::visitIn(pascalParser::InContext *ctx) {
 
 
 antlrcpp::Any runtimeVisitor::visitBranch(pascalParser::BranchContext *ctx) {
-
+    ///////
     // stabilisce il valore della guardia
     bool guard = visitGuard(ctx->guard());
     if(guard) {
@@ -81,6 +84,8 @@ antlrcpp::Any runtimeVisitor::visitLoop(pascalParser::LoopContext *ctx) {
     // Implementa l'esecuzione del ciclo repeat-until
     // (da controllare)
     return NULL;
+
+    ///////
 }
 
 antlrcpp::Any runtimeVisitor::visitExpr(pascalParser::ExprContext *ctx) {
@@ -147,6 +152,8 @@ antlrcpp::Any runtimeVisitor::visitExpr(pascalParser::ExprContext *ctx) {
 
 antlrcpp::Any runtimeVisitor::visitGuard(pascalParser::GuardContext *ctx) {
 
+    ///////
+
     // Valuta un' espressione booleana
     // il metodo ritorna true se l'espressione è vera, false altrimenti
 
@@ -166,7 +173,7 @@ antlrcpp::Any runtimeVisitor::visitGuard(pascalParser::GuardContext *ctx) {
                 return true;
         }
 
-        return false;
+        return visitGuard(ctx->guard(0));
     }
 
     return visitRelation(ctx->relation());
@@ -200,6 +207,9 @@ antlrcpp::Any runtimeVisitor::visitRelation(pascalParser::RelationContext *ctx) 
             return true;
     }
 
+    ///////
+
+    // Quest è l'else di ognuno
     return false;
 }
 
