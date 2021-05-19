@@ -182,12 +182,14 @@ antlrcpp::Any runtimeVisitor::visitGuard(pascalParser::GuardContext *ctx) {
 antlrcpp::Any runtimeVisitor::visitRelation(pascalParser::RelationContext *ctx) {
     // il metodo ritorna true se il confronto è vero, false altrimenti
 
+
     // Caso < : ritorna true se il primo blocco dell'espressione è minore del secondo
+
     if(ctx->LT()){
         if(vars[ctx->expr(0)->getText()] < vars[ctx->expr(1)->getText()])
             return true;
     }
-
+    // Se è minore uguale ritorna true
     if(ctx->LEQ()){
         if(vars[ctx->expr(0)->getText()] <= vars[ctx->expr(1)->getText()])
             return true;
