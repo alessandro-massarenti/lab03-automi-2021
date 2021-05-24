@@ -152,30 +152,42 @@ antlrcpp::Any runtimeVisitor::visitExpr(pascalParser::ExprContext *ctx) {
 
 antlrcpp::Any runtimeVisitor::visitGuard(pascalParser::GuardContext *ctx) {
 
-    ///////
-
     // Valuta un' espressione booleana
-    // il metodo ritorna true se l'espressione è vera, false altrimenti
+    // Il metodo ritorna true se l'espressione è vera, false altrimenti
 
+    // Verifica se ci sono guardie da valutare
     if(!ctx->relation()){
+        // Se entro vuol dire che devo ancora valutare le relation che compongono la guard
 
+        // Caso NOT guard : devo restituire true sse la guardia non è verificata  
         if(ctx->NOT()){
+            // Richiamo ricorsivamente visitGuard per gestire possibili espressioni annidate
+            // Al ritorno della ricorsione ottengo un valore booleano che poi devo restituire negato 
             return !visitGuard(ctx->guard(0));
         }
 
+        // Caso guard AND guard : devo restituire true sse entrambe le guardie sono verificate
         if(ctx->AND()){
+            // Richiamo ricorsivamente visitGuard su entrambi i membri della guardia
+            // Al ritorno dalla ricorsione si entra nell'if sse entrambe sono verificate e quindi restituisce true   
             if (visitGuard(ctx->guard(0)) && visitGuard(ctx->guard(1)))
                 return true;
         }
 
+        // Caso guard OR guard : devo restituire true sse almeno una guardia è verificata
         if(ctx->OR()){
+            // Richiamo ricorsivamente visitGuard su entrambi i membri della guardia
+            // Al ritorno dalla ricorsione si entra nell'if sse almeno uno dei due membri è verificato e quindi restituisce true
             if (visitGuard(ctx->guard(0)) || visitGuard(ctx->guard(1)))
                 return true;
         }
 
+        // Caso '(' guard ')' : richiamo visitGuard sulla guardia  
         return visitGuard(ctx->guard(0));
     }
 
+    // Se non sono entrato nell'if allora vuol dire che sono arrivato ricorsivamente alla relazione di base che
+    // compone la guardia. Richiamo visitRelation su di essa e restituisco il valore booleano di tale relazione 
     return visitRelation(ctx->relation());
 }
 
