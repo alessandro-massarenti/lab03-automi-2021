@@ -172,6 +172,7 @@ antlrcpp::Any runtimeVisitor::visitGuard(pascalParser::GuardContext *ctx) {
             // Al ritorno dalla ricorsione si entra nell'if sse entrambe sono verificate e quindi restituisce true   
             if (visitGuard(ctx->guard(0)) && visitGuard(ctx->guard(1)))
                 return true;
+            return false;
         }
 
         // Caso guard OR guard : devo restituire true sse almeno una guardia è verificata
@@ -180,6 +181,7 @@ antlrcpp::Any runtimeVisitor::visitGuard(pascalParser::GuardContext *ctx) {
             // Al ritorno dalla ricorsione si entra nell'if sse almeno uno dei due membri è verificato e quindi restituisce true
             if (visitGuard(ctx->guard(0)) || visitGuard(ctx->guard(1)))
                 return true;
+            return false;
         }
 
         // Caso '(' guard ')' : richiamo visitGuard sulla guardia  
