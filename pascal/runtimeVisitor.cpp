@@ -23,13 +23,16 @@ antlrcpp::Any runtimeVisitor::visitId_list(pascalParser::Id_listContext *ctx) {
 }
 
 antlrcpp::Any runtimeVisitor::visitAssign(pascalParser::AssignContext *ctx) {
+    // Estraggo il nome della variabile dal testo del blocco ID di assign
     string varname = ctx->ID()->getText();
     // controllo che la variabile sia stata dichiarata
     if(this->vars.find(varname) == this->vars.end()) {
         cerr << "Error: Undefined variable '" << varname << "'" << endl;
         exit(EXIT_FAILURE);
     }
+    // Estraggo il valore della variabile dal blocco expr di assign
     int value = visitExpr(ctx->expr());
+    // Assegno alla variabile ID il valore di expr
     this->vars[varname] = value;
     return NULL;
 }
