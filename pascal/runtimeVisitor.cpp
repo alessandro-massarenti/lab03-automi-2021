@@ -34,24 +34,27 @@ antlrcpp::Any runtimeVisitor::visitAssign(pascalParser::AssignContext *ctx) {
     int value = visitExpr(ctx->expr());
     // Assegno alla variabile ID il valore di expr
     this->vars[varname] = value;
+    
+    // Ritorno NULL dato che il metodo si occupa di assegnazioni senza ritornare niente
     return NULL;
 }
 
 antlrcpp::Any runtimeVisitor::visitOut(pascalParser::OutContext *ctx) {
-    ///////
-    // verifico se devo stampare intero o stringa
+    // Questo metodo stampa il valore del blocco di out
+    // Caso expr : stampo il valore di una espressione
     if(ctx->expr() != NULL) {
-        // caso stampa intero
+        // Se esiste expr allora salvo il suo valore calcolato da visitExpr e lo stampo su stdout
         int value = visitExpr(ctx->expr());
         cout << value << endl;
     }
-    // Implementato il caso della stringa
-    // (da controllare)
+    // Caso STRING : stampo la stringa contenuta in out
     if(ctx->STRING() != NULL){
+        // Se esiste STRING allora estraggo il suo testo e lo stampo direttamente su stdout 
         cout << ctx->STRING()->getText() << endl;
     }
-    return NULL;
 
+    // Ritorno NULL dato che il metodo si occupa di gestire stampe su stdout
+    return NULL;
 }
 
 antlrcpp::Any runtimeVisitor::visitIn(pascalParser::InContext *ctx) {
