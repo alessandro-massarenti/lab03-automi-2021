@@ -180,40 +180,48 @@ antlrcpp::Any runtimeVisitor::visitGuard(pascalParser::GuardContext *ctx) {
 }
 
 antlrcpp::Any runtimeVisitor::visitRelation(pascalParser::RelationContext *ctx) {
-    // il metodo ritorna true se il confronto è vero, false altrimenti
+    // Il metodo ritorna true se il confronto è vero, false altrimenti
 
-
-    // Caso < : ritorna true se il primo blocco dell'espressione è minore del secondo
-
+    // Caso < : ritorna true se il primo blocco dell'espressione è strettamente minore del secondo
     if(ctx->LT()){
+        // Verifica se il primo blocco dell'espressione è strettamente minore del secondo e se è vero restituisce true
         if(vars[ctx->expr(0)->getText()] < vars[ctx->expr(1)->getText()])
             return true;
     }
-    // Se è minore uguale ritorna true
+    // Caso <= : ritorna true se il primo blocco dell'espressione è minore o uguale del secondo
     if(ctx->LEQ()){
+        // Verifica se il primo blocco dell'espressione è minore o oguale del secondo e se è vero restituisce true
         if(vars[ctx->expr(0)->getText()] <= vars[ctx->expr(1)->getText()])
             return true;
     }
+    // Caso == : ritorna true se il primo e il secondo blocco dell'espressione sono uguali
     if(ctx->EQ()){
+        // Verifica se c'è uguaglianza tra primo e secondo blocco dell'espressione e restituisce true se è vero
         if(vars[ctx->expr(0)->getText()] == vars[ctx->expr(1)->getText()])
             return true;
     }
+    // Caso != : ritorna true se il primo e il secondo blocco dell'espressione sono diversi
     if(ctx->NEQ()){
+        // Verifica se primo e secondo blocco dell'espressione sono diversi e ritorna true se è vero
         if(vars[ctx->expr(0)->getText()] != vars[ctx->expr(1)->getText()])
             return true;
     }
+    // Caso >= : ritorna true se il primo blocco dell'epressione è maggiore o uguale del secondo
     if(ctx->GEQ()){
+        // Verifica se il primo blocco dell'espressione è maggiore o uguale del secondo e restituisce true se è vero
         if(vars[ctx->expr(0)->getText()] >= vars[ctx->expr(1)->getText()])
             return true;
     }
+    // Caso > : ritorna true se il primo blocco dell'espressione è strettamente maggiore del secondo 
     if(ctx->GT()){
+        // Verifica se il primo blocco dell'espressione è strettamente minore del secondo blocco e restituisce true se è vero
         if(vars[ctx->expr(0)->getText()] > vars[ctx->expr(1)->getText()])
             return true;
     }
 
-    ///////
-
-    // Quest è l'else di ognuno
+    // Se la relazione valutata non è verificata il metodo arriva a questo punto e restituisce false
+    // Posizionato esternamente dai vari casi a fine metodo agisce da "valore di default", assumendo che 
+    // se non ho trovato una relazione verificata e/o un errore devo restituire false 
     return false;
 }
 
