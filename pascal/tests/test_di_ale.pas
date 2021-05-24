@@ -18,7 +18,7 @@ begin
     x := 10;
     y := 10;
 
-    if x <= 1000  then
+    if x <= z  then
     begin
 	    writeln(x);
     end

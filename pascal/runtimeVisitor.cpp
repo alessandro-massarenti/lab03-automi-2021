@@ -208,10 +208,14 @@ antlrcpp::Any runtimeVisitor::visitRelation(pascalParser::RelationContext *ctx) 
     int values[2];
 
     for(int i = 0; i < 2; i ++){
-        if(vars.find(ctx->expr(i)->getText()) != vars.end())
-            values[i] = vars[ctx->expr(i)->getText()];
-        else
+        if(ctx->expr(i)->ID()){
+            if(vars.find(ctx->expr(i)->getText()) != vars.end())
+                values[i] = vars[ctx->expr(i)->getText()];
+            else
+                throw "La variabile non è mai stata allocata Sigsev zio";
+        }else if(ctx->expr(i)->NUMBER()){
             values[i] = stoi(ctx->expr(i)->getText());
+        }   
     }
 
     // Caso < : ritorna true se il primo blocco dell'espressione è strettamente minore del secondo
