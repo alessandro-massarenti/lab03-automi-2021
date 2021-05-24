@@ -9,7 +9,7 @@ begin
 
     if x <= y  then
     begin
-	    writeln(y);
+	    writeln(x);
     end
     else begin
         writeln('ciao');
@@ -20,7 +20,7 @@ begin
 
     if x <= 1000  then
     begin
-	    writeln(y);
+	    writeln(x);
     end
     else begin
         writeln('ciao');
