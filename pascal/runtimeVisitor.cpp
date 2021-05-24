@@ -205,6 +205,7 @@ antlrcpp::Any runtimeVisitor::visitRelation(pascalParser::RelationContext *ctx) 
     //(da controllare)
     //Per entrare in questa funzione bisogna che sia una relazione
 
+    //Int perchè le var sono tutte interi in questa casistica non saprei bene come implementare
     int values[2];
 
     for(int i = 0; i < 2; i ++){
