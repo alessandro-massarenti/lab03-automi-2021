@@ -48,7 +48,9 @@ antlrcpp::Any runtimeVisitor::visitOut(pascalParser::OutContext *ctx) {
         cout << value << endl;
     }
     // Implemento il caso della stringa
+    // Controllo se è presente un STRING valido
     if(ctx->STRING() != NULL){
+        // Estraggo il suo valore e lo stampo su standard output
         cout << ctx->STRING()->getText() << endl;
     }
     // Restituisco un valore nullo dato che il metodo gestisce stampe su stdout
@@ -57,40 +59,43 @@ antlrcpp::Any runtimeVisitor::visitOut(pascalParser::OutContext *ctx) {
 }
 
 antlrcpp::Any runtimeVisitor::visitIn(pascalParser::InContext *ctx) {
-    ///////
+    // Leggo l'input da tastiera
     cin >> vars[ctx->ID()->getText()];
-    //legge dell'input da tastiera
     // il metodo deve aggiornare il valore della variabile
+
+    // Ritorno NULL dato che il metodo assegna solamente valori senza ritornare nulla
     return NULL;
 }
 
-
 antlrcpp::Any runtimeVisitor::visitBranch(pascalParser::BranchContext *ctx) {
-    ///////
     // stabilisce il valore della guardia
+    // Il metodo visitGuard ritorna il valore booleano della valutazione della guardia 
     bool guard = visitGuard(ctx->guard());
     if(guard) {
         // se guardia vera, esegue ramo then
         visitCode_block(ctx->code_block(0));
     }else{
+        // Se guardia falsa, cerco se esiste un blocco else
         if(ctx->code_block(1)){
+            // Se lo trovo comincio ad analizzarlo
             visitCode_block(ctx->code_block(1));
         }
     }
-    //Esegue il ramo else (se presente) quando la guardia è falsa 
+    // Ritorno NULL dato che il metodo gestisce solo i controlli su quale ramo eseguire
     return NULL;
 }
 
 antlrcpp::Any runtimeVisitor::visitLoop(pascalParser::LoopContext *ctx) {
+    // Metodo per gestire i cicli
+    // Visito il corpo del ciclo per eseguirlo la prima volta
     visitSt_list(ctx->st_list());
+    // Verifico tramite visitGuard se la condizione di permanenza è ancora valida
     if(!visitGuard(ctx->guard())){
+        // In caso di permanenza verificata ripeto il ciclo richiamando visitLoop
         visitLoop(ctx);
     }
-    // Implementa l'esecuzione del ciclo repeat-until
-    // (da controllare)
+    // Alla fine del ciclo il corpo è stato eseguito da altri metodi e quindi ritorno NULL
     return NULL;
-
-    ///////
 }
 
 antlrcpp::Any runtimeVisitor::visitExpr(pascalParser::ExprContext *ctx) {
@@ -201,22 +206,28 @@ antlrcpp::Any runtimeVisitor::visitGuard(pascalParser::GuardContext *ctx) {
 antlrcpp::Any runtimeVisitor::visitRelation(pascalParser::RelationContext *ctx) {
     // Il metodo ritorna true se il confronto è vero, false altrimenti
 
-    //(da controllare)
-    //Per entrare in questa funzione bisogna che sia una relazione
+    // Verifico che sia veramente presente una relazione
+    // NOTA: essendo i tipi da gestire limitati agli interi viene creato direttamente un array di int
 
-    //Int perchè le var sono tutte interi in questa casistica non saprei bene come implementare
+    // L'array values contiene i valori su cui valutare le relazioni  
     int values[2];
-
+    // Visito i due campi di RELATION
     for(int i = 0; i < 2; i ++){
+        // Se trovo il blocco i-esimo di RELATION
         if(ctx->expr(i)->ID()){
+            // Se la variabile esiste, estraggo il suo valore e lo salvo in values[i]
             if(vars.find(ctx->expr(i)->getText()) != vars.end())
                 values[i] = vars[ctx->expr(i)->getText()];
+            // Se la variabile non esiste gestisco l'errore con un'eccezione
             else
                 throw "La variabile non è mai stata allocata Sigsev zio";
+        //Se il blocco i-esimo di RELATION è un NUMBER  
         }else if(ctx->expr(i)->NUMBER()){
+            // Converto in intero il suo valore e lo salvo in values[i]
             values[i] = stoi(ctx->expr(i)->getText());
         }   
     }
+    // Ora values[] contiene le i valori (espressioni e/o interi) che compongono la relazione
 
     // Caso < : ritorna true se il primo blocco dell'espressione è strettamente minore del secondo
     if(ctx->LT()){
