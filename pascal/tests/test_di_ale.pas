@@ -1,17 +1,28 @@
-program test_di_ale;   
+program testdiale;   
 
 var
   x, y: integer;
 
 begin
     x := 10;
-    y := 10;
+    y := 1100;
 
-    if x = y and  x = 1100 then
+    if x <= y  then
     begin
-	    writeln(y);
+	    writeln(x);
     end
     else begin
-        writeln('yomadonnah');
+        writeln('ciao');
+    end;
+
+    x := 10;
+    y := 10;
+
+    if x <= z  then
+    begin
+	    writeln(x);
+    end
+    else begin
+        writeln('ciao');
     end;
 end.
