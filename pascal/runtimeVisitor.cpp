@@ -59,11 +59,13 @@ antlrcpp::Any runtimeVisitor::visitOut(pascalParser::OutContext *ctx) {
 }
 
 antlrcpp::Any runtimeVisitor::visitIn(pascalParser::InContext *ctx) {
-
+    // Creo la variabile di tipo stringa contenente l'input
     string numtext = "";
+    // Raccolgo l'input da tastiera
     cin >> numtext;
 
-    // Leggo l'input da tastiera
+    // Converto l'input da stringa a intero e lo inserisco in vars alla posizione nell'indice
+    // dato dalla variabile ID
     vars[ctx->ID()->getText()] = std::stoi(numtext) ;
     // il metodo deve aggiornare il valore della variabile
 
