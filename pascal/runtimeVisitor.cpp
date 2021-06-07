@@ -215,12 +215,13 @@ antlrcpp::Any runtimeVisitor::visitRelation(pascalParser::RelationContext *ctx) 
     for(int i = 0; i < 2; i ++){
         // Se trovo il blocco i-esimo di RELATION
         if(ctx->expr(i)->ID()){
-            // Se la variabile esiste, estraggo il suo valore e lo salvo in values[i]
+            // Se la variabile non esiste gestisco l'errore con un'eccezione
             if(this->vars.find(ctx->expr(i)->getText()) == this->vars.end()){
                 cerr << "Error: Undefined variable '" << ctx->expr(i)->getText() << "'" << endl;
                 exit(EXIT_FAILURE);
             }
             else{
+                // Se invece la variabile esiste, estraggo il suo valore e lo salvo in values[i]
                 values[i] = vars[ctx->expr(i)->getText()];
             }
             
@@ -275,4 +276,3 @@ antlrcpp::Any runtimeVisitor::visitRelation(pascalParser::RelationContext *ctx) 
     // se non ho trovato una relazione verificata e/o un errore devo restituire false 
     return false;
 }
-
