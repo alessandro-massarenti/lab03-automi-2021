@@ -44,3 +44,4 @@ pascal/pascalParser.h
 pascal/pascalVisitor.cpp
 pascal/pascalVisitor.h
 pascal/syncheck
+.vscode/settings.json
