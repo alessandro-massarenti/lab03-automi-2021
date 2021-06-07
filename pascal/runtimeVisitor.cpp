@@ -59,8 +59,12 @@ antlrcpp::Any runtimeVisitor::visitOut(pascalParser::OutContext *ctx) {
 }
 
 antlrcpp::Any runtimeVisitor::visitIn(pascalParser::InContext *ctx) {
+
+    string numtext = "";
+    cin >> numtext;
+
     // Leggo l'input da tastiera
-    cin >> vars[ctx->ID()->getText()];
+    vars[ctx->ID()->getText()] = std::stoi(numtext) ;
     // il metodo deve aggiornare il valore della variabile
 
     // Ritorno NULL dato che il metodo assegna solamente valori senza ritornare nulla
@@ -228,7 +232,7 @@ antlrcpp::Any runtimeVisitor::visitRelation(pascalParser::RelationContext *ctx) 
         //Se il blocco i-esimo di RELATION è un NUMBER  
         }else if(ctx->expr(i)->NUMBER()){
             // Converto in intero il suo valore e lo salvo in values[i]
-            values[i] = stoi(ctx->expr(i)->getText());
+            values[i] = std::stoi(ctx->expr(i)->getText());
         }   
     }
     // Ora values[] contiene le i valori (espressioni e/o interi) che compongono la relazione
@@ -241,7 +245,6 @@ antlrcpp::Any runtimeVisitor::visitRelation(pascalParser::RelationContext *ctx) 
     }
     // Caso <= : ritorna true se il primo blocco dell'espressione è minore o uguale del secondo
     if(ctx->LEQ()){
-        
         // Verifica se il primo blocco dell'espressione è minore o oguale del secondo e se è vero restituisce true
         if(values[0] <= values[1])
             return true;
