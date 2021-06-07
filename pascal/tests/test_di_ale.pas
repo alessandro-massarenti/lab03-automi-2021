@@ -4,38 +4,19 @@ var
   x, y, b, s,z: integer;
 
 begin
-    x := 10;
-    y := 1100;
+    writeln(x);
 
-    if x <= y  then
-    begin
-	    writeln(x);
-    end
-    else begin
-        writeln('ciao');
-    end;
-
-    x := 10;
-    y := 10;
-
-    if x <= z  then
-    begin
-	    writeln(x);
-    end
-    else begin
-        writeln('ciao');
-    end;
+    readln(x);
     repeat
-        b := y;
-        b := b % 2; // randomness by user input
-	    if b = 1 then 
+      if ( x < 345 ) then 
 	    begin
-		    x := x + 1;
-		end
-		else begin
-		    x := x - 1;
-		end;
-	    s := s + 1;
-        writeln(s);
-    until x <= 0;
+        writeln('if');
+		  end
+		  else begin
+        writeln('else');
+		  end;
+    until x <= x;
+    writeln(23);
+    writeln('yoh');
+
 end.
